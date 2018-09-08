@@ -11,8 +11,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://api.zhuishushenqi.com/book', //设置调用接口域名和端口号别忘了加http
-        changeOrigin: true,
+        target: 'https://novel.juhe.im/', //设置调用接口域名和端口号别忘了加http
+        changeOrigin: true, //跨域
         pathRewrite: {
           '^/api': '/' //这里理解成用‘/api’代替target里面的地址，组件中我们调接口时直接用api代替
           // 比如我要调用'http://0.0:300/user/add'，直接写‘/api/user/add’即可
@@ -60,7 +60,6 @@ module.exports = {
     env: require('./prod.env'),
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
-
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',

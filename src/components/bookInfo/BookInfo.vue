@@ -11,7 +11,7 @@
       </div>
     </header>
 
-    <nav class="container-fluid">
+    <nav class="container-fluid image">
       <div class="container">
         <div class="pull-left">
           <img :src='"http://statics.zhuishushenqi.com"+cover+"-covers"' alt="">
@@ -24,12 +24,12 @@
       </div>
     </nav>
 
-    <section class="container-fluid">
+    <section class="container-fluid update">
       <div class="container">
         <div>
           <div class="flex">
             <div><h4>追更新</h4></div>
-            <div><h4>开始阅读</h4></div>
+            <div @click="getContent(id)"><h4>开始阅读</h4></div>
           </div>
         </div>
         <div class="row">
@@ -49,7 +49,7 @@
       </div>
     </section>
 
-    <section class="container-fluid">
+    <section class="container-fluid label">
      <div class="container">
        <div v-for="item in tags" class="tags">
          <div class="pull-left tag">{{item}}</div>
@@ -69,22 +69,23 @@
     props: {},
     data () {
       return {
-        title: {},
+        title: '',
         cover: {},
-        author: {},
-        postCount: {},
-        latelyFollower: {},
-        cat: {},
-        retentionRatio: {},
-        wordCount: {},
-        chaptersCount: {},
-        tags: {},
-        longIntro: {}
+        author: '',
+        postCount: '',
+        latelyFollower: '',
+        cat: '',
+        retentionRatio: '',
+        wordCount: '',
+        chaptersCount: '',
+        tags: '',
+        longIntro: '',
+        id: ''
       }
     },
     created () {
       let arr = this.$route.query.id
-      this.$axios.get('/api' + arr).then(res => {
+      this.$http.get(this.$api.getBook + 'book-info/' + arr).then(res => {
 //        console.log(res)
         let data = res.data
         this.title = data.title
@@ -98,15 +99,28 @@
         this.chaptersCount = data.chaptersCount
         this.tags = data.tags
         this.longIntro = data.longIntro
+        this.id = data._id
       }).catch(error => {
         alert(error)
       })
+    },
+    methods: {
+      getContent (f) {
+      //  console.log(f)
+        this.$router.push({
+          path: '/bookContent',
+          query: {
+            id: f
+          }
+        })
+      }
     }
   }
 </script>
 
 <style>
   .info{
+    width: 100%;
     background: #EF9B47;
     height: 45px;
     color:#ffffff;
@@ -118,12 +132,16 @@
     margin-top: 10px;
   }
 
-  section .flex{
+  .image{
+    margin-top: 10px;
+  }
+
+  .update .flex{
     display: flex;
     display: -webkit-flex;
     justify-content: space-around;
   }
-  section .flex div{
+  .update .flex div{
     height:40px;
     line-height: 40px;
     background:#EF9B47;
@@ -133,7 +151,7 @@
     color:#ffffff;
   }
 
-  section .tag{
+  .label .tag{
     -webkit-box-flex: 1;
     height: 32px;
     text-align: center;
@@ -144,5 +162,6 @@
     background: #f3f3f3;
     padding: 0 15px;
     margin-right: 8px;
+    margin-top: 5px;
   }
 </style>

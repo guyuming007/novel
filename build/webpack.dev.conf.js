@@ -8,24 +8,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const express = require('express') // nodejs开发框架express，用来简化操作
 
+var proxy = require('http-proxy-middleware')
+
 const app = express() // 创建node.js的express开发框架的实例
 
-let appData = require('../data.json') // 引用的json地址
-
-let books = appData.books // json某一个key
-
-let searchAll = appData.books
-
-const apiRouter = express.Router()
-
-apiRouter.get('/searchAll',function (req,res) {
-  res.json({
-    error:0,
-    data:books
-  })
-})
-
-app.use('/api', apiRouter)
+//let appData = require('../data.json') // 引用的json地址
+//let books = appData.books // json某一个key
+//const apiRouter = express.Router()
+//apiRouter.get('/books',function (req,res) {
+//  res.json({
+//    error:0,
+//    data:books
+//  })
+//})
+//
+//app.use('/api', apiRouter)
 
 const portfinder = require('portfinder')
 
@@ -56,12 +53,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     before(app) {
-      app.get('/api/books', (req, res) => {
-        res.json({
-          error: 0,
-          data:books
-        })
-      })
+      //app.get('/api/books', (req, res) => {
+      //  res.json({
+      //    error: 0,
+      //    data:books
+      //  })
+      //})
     }
   },
   plugins: [
